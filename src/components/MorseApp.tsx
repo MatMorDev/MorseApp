@@ -1,15 +1,12 @@
 import axios from "axios"; //npm i axios        (libreria installata)
 import React, { useState, useEffect } from "react";
 
-//const stringMorse = ".-"; string usata di prova per testare il loop
+const stringMorse = ".-"; //string usata di prova per testare il loop
 const backgroundBaseColor = "black";
 const backgroundActiveColor = "white";
-const serverPath = "http://localhost:8080/api/v1/";
+const serverPath = "http://localhost:3000/api/v1/";
 const endpoint = "answerMessage";
 const idMessage = "1";
-const morseDotTime = 1000;
-const morseMinusTime = 3000;
-const delayBeforeBlackScreen = 1000; // 1 secondo di schermo nero tra i caratteri
 
 // 1) premendo la barra spaziatrice e tenendola premuta lo sfondo cambia da nero a bianco
 // 2) premendo y o Y si avvia la get per ottenere un messaggio già tradotto da lingua corrente a morse dal server che viene poi mostrato come messaggio visivo a schermo
@@ -22,7 +19,10 @@ const MorseApp = () => {
   const [result, setResult] = useState<string>("");
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
-  const [helper, setHelper] = useState<boolean>(false);
+
+  const morseDotTime = 1000;
+  const morseMinusTime = 3000;
+  const delayBeforeBlackScreen = 1000; // 1 secondo di schermo nero tra i caratteri
 
   const divStyle = {
     width: "100vw",
@@ -39,11 +39,10 @@ const MorseApp = () => {
       if (event.key === " ") {
         setBackgroundColor(backgroundActiveColor);
         setIsSpaceBarPressed(true);
-      } else if ((event.key === "Y" || event.key === "y") && !isYKeyPressed) {
+      } else if (event.key === "y" && !isYKeyPressed) {
         setIsYKeyPressed(true);
         fetchData();
-        if (!!!result) setIsYKeyPressed(false);
-      } else if ((event.key === "N" || event.key === "n") && isYKeyPressed) {
+      } else if (event.key === "n" && isYKeyPressed) {
         setIsYKeyPressed(false);
         setBackgroundColor(backgroundBaseColor);
         setCurrentIndex(0); // Reimposta l'indice quando premi "N"
@@ -98,7 +97,7 @@ const MorseApp = () => {
     fetch(`${serverPath}${endpoint}/${idMessage}`)
       .then((response) => response.text())
       .then((data) => {
-        setResult(data);
+        setResult(stringMorse);
         setCurrentIndex(0);
         setIsProcessing(false);
       })
@@ -106,10 +105,10 @@ const MorseApp = () => {
         console.error("Errore durante la richiesta API:", error);
       });
   };
-  /*
-  const fetchData = async () => {
+
+  /*const fetchData = async () => {
     try {
-      const response = await axios.get(`${serverPath}${endpoint}/${idMessage}`);
+      const response = await axios.get("1");
       const data = response.data;
       setResult(data);
       setCurrentIndex(0);

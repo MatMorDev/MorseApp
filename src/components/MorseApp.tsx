@@ -49,11 +49,12 @@ const MorseApp = () => {
         setCurrentIndex(0); // Reimposta l'indice quando premi "N"
         setIsProcessing(false);
       }
-      const helperActive = (event: any) => {
-        if (event.key === "h" || event.key === "H") {
-          helper ? setHelper(false) : setHelper(true);
-        }
-      };
+    };
+
+    const helperActive = (event: any) => {
+      if (event.key === "h" || event.key === "H") {
+        helper ? setHelper(false) : setHelper(true);
+      }
     };
 
     const handleKeyUp = (event: any) => {
@@ -63,14 +64,16 @@ const MorseApp = () => {
       }
     };
 
+    window.addEventListener("keydown", helperActive);
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
 
     return () => {
+      window.removeEventListener("keydown", helperActive);
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [isYKeyPressed]);
+  }, [isYKeyPressed, helper]);
 
   useEffect(() => {
     if (isYKeyPressed && currentIndex < result.length && !isProcessing) {

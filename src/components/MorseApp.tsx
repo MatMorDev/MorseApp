@@ -51,12 +51,6 @@ const MorseApp = () => {
       }
     };
 
-    const helperActive = (event: any) => {
-      if (event.key === "h" || event.key === "H") {
-        helper ? setHelper(false) : setHelper(true);
-      }
-    };
-
     const handleKeyUp = (event: any) => {
       if (event.key === " ") {
         setBackgroundColor(backgroundBaseColor);
@@ -64,16 +58,14 @@ const MorseApp = () => {
       }
     };
 
-    window.addEventListener("keydown", helperActive);
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
 
     return () => {
-      window.removeEventListener("keydown", helperActive);
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [isYKeyPressed, helper]);
+  }, [isYKeyPressed]);
 
   useEffect(() => {
     if (isYKeyPressed && currentIndex < result.length && !isProcessing) {
@@ -102,8 +94,8 @@ const MorseApp = () => {
     }
   }, [isYKeyPressed, result, currentIndex, isProcessing]);
 
-  /*const fetchData = () => {
-    fetch(serverURL)
+  const fetchData = () => {
+    fetch(`${serverPath}${endpoint}/${idMessage}`)
       .then((response) => response.text())
       .then((data) => {
         setResult(data);
@@ -113,8 +105,8 @@ const MorseApp = () => {
       .catch((error) => {
         console.error("Errore durante la richiesta API:", error);
       });
-  };*/
-
+  };
+  /*
   const fetchData = async () => {
     try {
       const response = await axios.get(`${serverPath}${endpoint}/${idMessage}`);
@@ -125,22 +117,9 @@ const MorseApp = () => {
     } catch (error) {
       console.error("Errore durante la richiesta API:", error);
     }
-  };
+  };*/
 
-  return (
-    <div style={divStyle}>
-      {/*da attivare h1 per vedere a schermo le istruzioni - sviluppo*/}
-      {helper && (
-        <h1>
-          {isSpaceBarPressed
-            ? "Barra spaziatrice premuta"
-            : isYKeyPressed
-            ? "Premi N o n per uscire"
-            : "Barra spaziatrice rilasciata"}
-        </h1>
-      )}
-    </div>
-  );
+  return <div style={divStyle}></div>;
 };
 
 export default MorseApp;

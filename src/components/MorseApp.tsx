@@ -9,8 +9,8 @@ const endpoint = "answerMessage";
 const idMessage = "1";
 
 // 1) premendo la barra spaziatrice e tenendola premuta lo sfondo cambia da nero a bianco
-// 2) premendo y o Y si avvia la get per ottenere un messaggio già tradotto da lingua corrente a morse dal server che viene poi mostrato come messaggio visivo a schermo
-//il messaggio viene ripetuto finché non viene disattivato dall'utente premendo n o N la gestione automatica
+// 2) premendo y si avvia la get per ottenere un messaggio già tradotto da lingua corrente a morse dal server che viene poi mostrato come messaggio visivo a schermo
+//il messaggio viene ripetuto finché non viene disattivato dall'utente premendo n la gestione automatica
 const MorseApp = () => {
   const [backgroundColor, setBackgroundColor] =
     useState<string>(backgroundBaseColor);
@@ -97,7 +97,7 @@ const MorseApp = () => {
     fetch(`${serverPath}${endpoint}/${idMessage}`)
       .then((response) => response.text())
       .then((data) => {
-        setResult(stringMorse);
+        setResult(data);
         setCurrentIndex(0);
         setIsProcessing(false);
       })
